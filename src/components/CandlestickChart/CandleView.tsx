@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { CANDLE_COLORS } from "../../constants/colors";
 interface CandleViewProps {
   candle: Candle;
   pointHeight: number;
@@ -7,9 +7,10 @@ interface CandleViewProps {
 
 interface CandleStyleProps {
   isBullish: boolean;
+  isBearish: boolean;
 }
 
-interface ExtremumStyleProps {
+interface ShadowStyleProps {
   height: number;
 }
 
@@ -18,34 +19,36 @@ interface BodyStyleProps {
 }
 
 const CandleStyle = styled.div<CandleStyleProps>`
-  color: ${(props) => (props.isBullish ? "green" : "red")};
+  color: black;
+  ${(props) => props.isBullish && `color: ${CANDLE_COLORS.bullish};`}
+  ${(props) => props.isBearish && `color: ${CANDLE_COLORS.bearish};`}
 `;
 
-const ExtremumStyle = styled.div<ExtremumStyleProps>`
+const ShadowStyle = styled.div<ShadowStyleProps>`
   height: ${(props) => props.height}px;
   background-color: currentColor;
+  width: 2px;
+  margin: 0 auto;
 `;
 
 const BodyStyle = styled.div<BodyStyleProps>`
   height: ${(props) => props.height}px;
   background-color: currentColor;
-  border: 1px solid black;
 `;
 
-function CandleView({ candle }: CandleViewProps) {
+function CandleView({ candle, pointHeight }: CandleViewProps) {
   const top = candle.isBullish ? candle.closePrice : candle.openPrice;
   const bottom = candle.isBullish ? candle.openPrice : candle.closePrice;
 
-  const highHeight = candle.highestPrice - top;
-  const bottomHeight = bottom - candle.lowestPrice;
+  const topShadowHeight = candle.highestPrice - top;
+  const bottomShadowHeight = bottom - candle.lowestPrice;
   const bodyHeight = top - bottom;
 
   return (
-    <CandleStyle isBullish={candle.isBullish}>
-      <ExtremumStyle height={Math.abs(highHeight)}></ExtremumStyle>
-      <BodyStyle height={Math.abs(bodyHeight)}></BodyStyle>
-      <ExtremumStyle height={Math.abs(bottomHeight)}></ExtremumStyle>
-     
+    <CandleStyle isBullish={candle.isBullish} isBearish={candle.isBearish}>
+      <ShadowStyle height={topShadowHeight * pointHeight}></ShadowStyle>
+      <BodyStyle height={bodyHeight * pointHeight}></BodyStyle>
+      <ShadowStyle height={bottomShadowHeight * pointHeight}></ShadowStyle>
     </CandleStyle>
   );
 }

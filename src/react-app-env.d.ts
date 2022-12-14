@@ -19,11 +19,13 @@ type CandleVars = [
   string // unused
 ];
 
+
 type Candle = {
-    id: string;
-    highestPrice: number;
-    lowestPrice: number;
-    openPrice: number;
-    closePrice: number;
-    isBullish: boolean;
-}
+  id: string;
+  highestPrice: number;
+  lowestPrice: number;
+  openPrice: number;
+  closePrice: number;
+  isBullish: boolean;
+  isBearish: boolean;
+};

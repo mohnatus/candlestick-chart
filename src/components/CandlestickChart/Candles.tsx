@@ -1,5 +1,7 @@
 import styled from "styled-components";
+import { CHART_HEIGHT } from "../../constants/view";
 import { CandleView } from "./CandleView";
+import { getMaxPrice, getMinPrice, getCandleOffset } from './utils';
 
 interface CandlesProps {
   candles: Candle[];
@@ -24,36 +26,26 @@ const CandleWrapperStyle = styled.div<CandleWrapperStyleProps>`
   padding-top: ${(props) => props.offset}px;
 `;
 
-const HEIGHT = 100;
-
 const Candles = function ({ candles, selected, onSelect }: CandlesProps) {
-  const maxPrice = candles.reduce(
-    (max, candle) => Math.max(max, candle.highestPrice),
-    0
-  );
-  const minPrice = candles.reduce(
-    (min, candle) => Math.min(min, candle.lowestPrice),
-    Infinity
-  );
-
- 
+  const maxPrice = getMaxPrice(candles);
+  const minPrice = getMinPrice(candles);
 
   const diff = maxPrice - minPrice;
-  const pointHeight = HEIGHT / diff;
-
-  console.log({ maxPrice, minPrice, diff, pointHeight, candles  });
+  const pointHeight = Math.round((CHART_HEIGHT / diff) * 100) / 100;
 
   return (
-    <WrapperStyle>
-      {candles.map((candle) => (
-        <CandleWrapperStyle
-          key={candle.id}
-          offset={(maxPrice - candle.highestPrice) * pointHeight}
-        >
-          <CandleView candle={candle} pointHeight={pointHeight}></CandleView>
-        </CandleWrapperStyle>
-      ))}
-    </WrapperStyle>
+    <div>
+      <WrapperStyle>
+        {candles.map((candle) => (
+          <CandleWrapperStyle
+            key={candle.id}
+            offset={getCandleOffset(candle, maxPrice) * pointHeight}
+          >
+            <CandleView candle={candle} pointHeight={pointHeight}></CandleView>
+          </CandleWrapperStyle>
+        ))}
+      </WrapperStyle>
+    </div>
   );
 };
 
