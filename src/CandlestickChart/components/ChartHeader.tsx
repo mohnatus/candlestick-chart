@@ -12,11 +12,15 @@ interface ChartHeaderProps {
   selected: Candle | null;
 }
 
-const WrapperStyle = styled.header`
+interface WrapperStyleProps {
+  isMobile: boolean;
+}
+
+const WrapperStyle = styled.header<WrapperStyleProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 19px;
+  font-size: ${(props) => (props.isMobile ? 17 : 19)}px;
   font-weight: 400;
   margin-bottom: ${SPACE_SM}px;
 `;
@@ -42,7 +46,7 @@ const ChartHeader = function ({ selected }: ChartHeaderProps) {
   }
 
   return (
-    <WrapperStyle>
+    <WrapperStyle isMobile={isMobile}>
       <TitleStyle>BTC/USDT Price Chart</TitleStyle>
       <DateStyle>{dateString}</DateStyle>
     </WrapperStyle>

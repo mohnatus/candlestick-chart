@@ -19,6 +19,7 @@ export const CANDLE_COLORS = {
 
 export const COLORS = {
   text: "white",
+  textHover: "#D5D5D5",
   secondary: "#8D8D8D",
   accent: "#72ED93",
 };

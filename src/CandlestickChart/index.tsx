@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useLayoutEffect } from "react";
+import { useEffect, useState, useCallback, useLayoutEffect, useContext } from 'react';
 import styled from "styled-components";
 
 import { useRequest } from "./hooks/useRequest";
@@ -15,10 +15,12 @@ import { SPACE_MD, SPACE_SM } from "./constants/view";
 import { COLORS } from "./constants/colors";
 import { CHART_INTERVALS, MARKET } from './constants/chart';
 
+interface WrapperStyleProps {
+  isMobile: boolean
+}
 
-
-const WrapperStyle = styled.div`
-  width: 510px;
+const WrapperStyle = styled.div<WrapperStyleProps>`
+  width: ${ props => props.isMobile ? 345 : 510}px;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
 
@@ -56,6 +58,8 @@ function CandlesHandler(data: CandleVars[]): Candle[] {
 }
 
 const CandlestickChartContent = function () {
+  const isMobile = useContext(IsMobileContext);
+
   const [interval, setInterval] = useState(CHART_INTERVALS[0]);
   const [selectedCandleId, setSelectedCandleId] = useState<string | null>(null);
   const { pending, data, send, abort } = useRequest<CandleVars[]>(
@@ -100,7 +104,7 @@ const CandlestickChartContent = function () {
   }, [data, setCandles]);
 
   return (
-    <WrapperStyle>
+    <WrapperStyle isMobile={isMobile}>
       <ContentStyle>
         <ChartHeader selected={selectedCandle} />
         <Candles

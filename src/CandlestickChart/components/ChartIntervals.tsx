@@ -20,6 +20,10 @@ const IntervalStyle = styled.button<IntervalStyleProps>`
   outline: none;
   margin-left: ${SPACE_SM}px;
   color: ${(props) => (props.active ? COLORS.text : COLORS.secondary)};
+
+  &:hover {
+    color: ${(props) => (props.active ? COLORS.text : COLORS.textHover)};
+  }
 `;
 
 const ChartIntervals = function ({

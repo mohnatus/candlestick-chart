@@ -5,53 +5,57 @@ import { Candle } from "../types";
 import { getCandleChange, getCandleAmplitude } from "../utils";
 import { IsMobileContext } from "../context/index";
 import { COLORS } from "../constants/colors";
-import { SPACE_LG } from "../constants/view";
+import { SPACE_LG, SPACE_SM } from "../constants/view";
 
 interface CandleDataProps {
   candle: Candle;
 }
 
-const WrapperStyle = styled.div`
+interface WrapperStyleProps {
+  isMobile: boolean;
+}
+
+const WrapperStyle = styled.div<WrapperStyleProps>`
   display: flex;
   font-weight: 300;
   line-height: 1;
-`;
+  font-size: ${props => props.isMobile ? 24 : 30}px;
 
-const SectionStyle = styled.section`
-  font-size: 30px;
-  &:not(:last-child) {
-    margin-right: ${SPACE_LG}px;
+  section:not(:last-child) {
+    margin-right: ${props => props.isMobile ? SPACE_SM : SPACE_LG}px;
+  }
+
+  h2 {
+    font-size: ${props => props.isMobile ? 15 : 18}px;
+    margin: 0;
+    color: ${COLORS.secondary};
   }
 `;
 
-const HeaderStyle = styled.h2`
-  font-size: 18px;
-  margin: 0;
-  color: ${COLORS.secondary};
-`;
+
 
 const CandleData = function ({ candle }: CandleDataProps) {
   const isMobile = useContext(IsMobileContext);
 
   return (
-    <WrapperStyle>
-      <SectionStyle>
-        <HeaderStyle>Open/Close</HeaderStyle>
+    <WrapperStyle isMobile={isMobile}>
+      <section>
+        <h2>Open/Close</h2>
         <div>{candle.openPrice}</div>
         <div>{candle.closePrice}</div>
-      </SectionStyle>
-      <SectionStyle>
-        <HeaderStyle>High/Low</HeaderStyle>
+      </section>
+      <section>
+        <h2>High/Low</h2>
         <div>{candle.highestPrice}</div>
         <div>{candle.lowestPrice}</div>
-      </SectionStyle>
-      <SectionStyle>
-        <HeaderStyle>
+      </section>
+      <section>
+        <h2>
           {isMobile ? "Change/Ampl" : "Change/Amplitude"}
-        </HeaderStyle>
+        </h2>
         <div>{getCandleChange(candle)}%</div>
         <div>{getCandleAmplitude(candle)}%</div>
-      </SectionStyle>
+      </section>
     </WrapperStyle>
   );
 };
