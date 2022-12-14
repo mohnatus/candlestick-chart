@@ -1,14 +1,17 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useLayoutEffect } from "react";
+import styled from "styled-components";
 
-import { useRequest } from "../../hooks/useRequest";
-import { CANDLESTICK_CHART_ENDPOINT } from "../../constants/api";
-import { DEFAULT_CHART_CONFIG } from "../../constants/chart";
-import { CandleModel } from "../../entity/Candle";
+import { useRequest } from "./hooks/useRequest";
+import { CANDLESTICK_CHART_ENDPOINT } from "./constants/api";
+import { DEFAULT_CHART_CONFIG } from "./constants/chart";
+import { CandleModel } from "./entity/Candle";
 
-import { Candles } from "./Candles";
-import { CandleData } from "./CandleData";
-import {  ChartHeader } from "./ChartHeader";
-import { ChartIntervals } from "./ChartIntervals";
+import { Candles } from "./components/Candles";
+import { CandleData } from "./components/CandleData";
+import { ChartHeader } from "./components/ChartHeader";
+import { ChartIntervals } from "./components/ChartIntervals";
+import { Candle, CandleVars } from './types';
+import { IsMobileContext } from "./context";
 
 interface CandlestickChartProps {
   count: number;
@@ -16,11 +19,15 @@ interface CandlestickChartProps {
   intervals: Array<string>;
 }
 
+const Wrapper = styled.div`
+  width: 510px;
+`;
+
 function CandlesHandler(data: CandleVars[]): Candle[] {
   return data.map((candleData) => CandleModel(candleData));
 }
 
-const CandlestickChart = function ({
+const CandlestickChartContent = function ({
   count,
   market,
   intervals,
@@ -76,7 +83,7 @@ const CandlestickChart = function ({
   }
 
   return (
-    <div>
+    <Wrapper>
       <ChartHeader market={marketName} selected={selectedCandle} />
       <Candles
         candles={data || []}
@@ -89,7 +96,30 @@ const CandlestickChart = function ({
         selected={interval}
         onSelect={selectInterval}
       />
-    </div>
+    </Wrapper>
+  );
+};
+
+const CandlestickChart = function () {
+  const [media, setMedia] = useState(false);
+
+  useLayoutEffect(() => {
+    const mq = "screen and (min-width: 526px)";
+    const mql = window.matchMedia(mq);
+
+    const cb = (mql: { matches: boolean }) => {
+      setMedia(!mql.matches);
+    };
+
+    mql.addEventListener("change", cb);
+
+    cb(mql);
+  }, []);
+
+  return (
+    <IsMobileContext.Provider value={media}>
+      <CandlestickChartContent />
+    </IsMobileContext.Provider>
   );
 };
 

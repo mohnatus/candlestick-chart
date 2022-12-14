@@ -1,3 +1,5 @@
+import { Candle, Moment, DateComponents } from "./types";
+
 export function getMaxPrice(candles: Candle[]): number {
   return candles.reduce((max, candle) => Math.max(max, candle.highestPrice), 0);
 }
@@ -8,29 +10,17 @@ export function getMinPrice(candles: Candle[]): number {
   );
 }
 
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-export function formatDateMoment(moment: Moment): string {
+export function getDateComponents(moment: Moment): DateComponents {
   const date = new Date(moment);
 
   const minutes = `${date.getMinutes()}`;
+  const time = `${date.getHours()}:${minutes.padStart(2, "0")}`;
 
-  return `${date.getDate()} ${
-    MONTHS[date.getMonth()]
-  } ${date.getHours()}:${minutes.padStart(2, "0")}`;
+  return {
+    dayOfMonth: date.getDate(),
+    monthIndex: date.getMonth(),
+    time,
+  };
 }
 
 export function getCandleChange(candle: Candle): number {

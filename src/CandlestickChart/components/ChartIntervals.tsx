@@ -11,8 +11,6 @@ const ChartIntervals = function ({
 }: ChartIntervalsProps) {
   const list = [...new Set(intervals).values()];
 
-  console.log({ intervals, list })
-
   return (
     <div>
       Time

@@ -1,3 +1,4 @@
+import { CandleVars, Candle } from '../types';
 let unique = 1;
 
 export function CandleModel(data: CandleVars): Candle {

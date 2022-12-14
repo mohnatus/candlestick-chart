@@ -1,12 +1,10 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { CandlestickChart } from "./components/CandlestickChart";
+import { CandlestickChart } from "./CandlestickChart";
 
 function App() {
   return (
     <div className="App">
-      <div style={{ width: 500 }}>
+      <div>
         <CandlestickChart />
       </div>
     </div>

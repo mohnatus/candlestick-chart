@@ -1,5 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 
+import { RequestParams } from '../types';
+
 function getParamsString(params: RequestParams = {}) {
   return Object.entries(params)
     .map(([key, value]) => `${key}=${value}`)
