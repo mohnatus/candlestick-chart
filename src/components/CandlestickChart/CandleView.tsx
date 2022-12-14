@@ -45,24 +45,8 @@ function CandleView({ candle }: CandleViewProps) {
       <ExtremumStyle height={Math.abs(highHeight)}></ExtremumStyle>
       <BodyStyle height={Math.abs(bodyHeight)}></BodyStyle>
       <ExtremumStyle height={Math.abs(bottomHeight)}></ExtremumStyle>
-      {candle.openPrice}
-      <br />
-      {candle.closePrice}
-      <br />
-      {candle.highestPrice}
-      <br />
-      {candle.lowestPrice}
+     
     </CandleStyle>
-  );
-
-  return (
-    <div>
-      high {candle.highestPrice}
-      open {candle.openPrice}
-      close {candle.closePrice}
-      low {candle.lowestPrice}
-      <hr />
-    </div>
   );
 }
 

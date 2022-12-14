@@ -14,6 +14,8 @@ interface CandleWrapperStyleProps {
 const WrapperStyle = styled.div`
   display: flex;
   align-items: flex-start;
+  width: 100%;
+  overflow: hidden;
 `;
 
 const CandleWrapperStyle = styled.div<CandleWrapperStyleProps>`
