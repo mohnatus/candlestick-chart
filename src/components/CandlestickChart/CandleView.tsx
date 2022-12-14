@@ -5,12 +5,15 @@ import { CANDLE_COLORS } from "../../constants/colors";
 interface CandleViewProps {
   candle: Candle;
   pointHeight: number;
+  maxPrice: number;
+  selected: boolean;
   onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 interface CandleStyleProps {
-  isBullish: boolean;
-  isBearish: boolean;
+  type: "bullish" | "bearish" | "default";
+  offset: number;
+  active: boolean;
 }
 
 interface ShadowStyleProps {
@@ -22,15 +25,27 @@ interface BodyStyleProps {
 }
 
 const CandleStyle = styled.div<CandleStyleProps>`
-  color: black;
-  ${(props) => props.isBullish && `color: ${CANDLE_COLORS.bullish};`}
-  ${(props) => props.isBearish && `color: ${CANDLE_COLORS.bearish};`}
+  width: 7px;
+  cursor: pointer;
+
+  color: ${(props) =>
+    props.active
+      ? CANDLE_COLORS[props.type].active
+      : CANDLE_COLORS[props.type].color};
+  &:hover {
+    color: ${(props) =>
+      props.active
+        ? CANDLE_COLORS[props.type].active
+        : CANDLE_COLORS[props.type].hover};
+  }
+
+  padding-top: ${(props) => props.offset}px;
 `;
 
 const ShadowStyle = styled.div<ShadowStyleProps>`
   height: ${(props) => Math.floor(props.height * 10) / 10}px;
   background-color: currentColor;
-  width: 2px;
+  width: 1px;
   margin: 0 auto;
 `;
 
@@ -39,7 +54,13 @@ const BodyStyle = styled.div<BodyStyleProps>`
   background-color: currentColor;
 `;
 
-function CandleView({ candle, pointHeight, onClick }: CandleViewProps) {
+function CandleView({
+  candle,
+  maxPrice,
+  pointHeight,
+  selected,
+  onClick,
+}: CandleViewProps) {
   const top = candle.isBullish ? candle.closePrice : candle.openPrice;
   const bottom = candle.isBullish ? candle.openPrice : candle.closePrice;
 
@@ -47,11 +68,16 @@ function CandleView({ candle, pointHeight, onClick }: CandleViewProps) {
   const bottomShadowHeight = bottom - candle.lowestPrice;
   const bodyHeight = top - bottom;
 
+  const offset = maxPrice - candle.highestPrice;
+
   return (
     <CandleStyle
-      isBullish={candle.isBullish}
-      isBearish={candle.isBearish}
+      type={
+        candle.isBullish ? "bullish" : candle.isBearish ? "bearish" : "default"
+      }
       onClick={onClick}
+      offset={offset * pointHeight}
+      active={selected}
     >
       <ShadowStyle height={topShadowHeight * pointHeight}></ShadowStyle>
       <BodyStyle height={bodyHeight * pointHeight}></BodyStyle>

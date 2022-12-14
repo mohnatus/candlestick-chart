@@ -8,10 +8,6 @@ export function getMinPrice(candles: Candle[]): number {
   );
 }
 
-export function getCandleOffset(candle: Candle, maxPrice: number): number {
-  return maxPrice - candle.highestPrice;
-}
-
 const MONTHS = [
   "January",
   "February",

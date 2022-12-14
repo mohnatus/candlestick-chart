@@ -25,7 +25,6 @@ const CandlestickChart = function ({
   market,
   intervals,
 }: Partial<CandlestickChartProps>) {
-  const [candlesCount] = useState(count || DEFAULT_CHART_CONFIG.count);
   const [marketName] = useState(market || DEFAULT_CHART_CONFIG.market);
   const [chartIntervals] = useState(
     intervals?.length ? intervals : DEFAULT_CHART_CONFIG.intervals
@@ -61,7 +60,7 @@ const CandlestickChart = function ({
   useEffect(() => {
     if (interval) {
       send({
-        limit: candlesCount,
+        limit: 32,
         symbol: marketName,
         interval,
       });
@@ -70,7 +69,7 @@ const CandlestickChart = function ({
     return () => {
       abort();
     };
-  }, [candlesCount, marketName, interval, send, abort]);
+  }, [marketName, interval, send, abort]);
 
   if (!chartIntervals.length) {
     <div>Не указаны интервалы</div>;
