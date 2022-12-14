@@ -1,10 +1,10 @@
 export type Moment = number;
 
 export type DateComponents = {
-    dayOfMonth: number;
-    monthIndex: number;
-    time: string;
-}
+  dayOfMonth: number;
+  monthIndex: number;
+  time: string;
+};
 
 export type RequestParams = {
   [key: string]: string | number;

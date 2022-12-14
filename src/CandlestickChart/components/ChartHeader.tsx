@@ -7,34 +7,34 @@ import { MONTHS, MONTHS_SHORT } from "../constants/months";
 import { IsMobileContext } from "../context/index";
 
 interface ChartHeaderProps {
-    market: string;
-    selected: Candle | null;
+  market: string;
+  selected: Candle | null;
 }
 
 const Wrapper = styled.header`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const ChartHeader = function ({ market, selected }: ChartHeaderProps) {
-    const isMobile = useContext(IsMobileContext);
+  const isMobile = useContext(IsMobileContext);
 
-    let dateString = "";
-    if (selected) {
-        const { dayOfMonth, monthIndex, time } = getDateComponents(
-            selected.openTime
-        );
-        const monthNames = isMobile ? MONTHS_SHORT : MONTHS;
-        dateString = `${dayOfMonth} ${monthNames[monthIndex]} ${time}`;
-    }
-
-    return (
-        <div>
-            <div>{market} Price Chart</div>
-            {dateString}
-        </div>
+  let dateString = "";
+  if (selected) {
+    const { dayOfMonth, monthIndex, time } = getDateComponents(
+      selected.openTime,
     );
+    const monthNames = isMobile ? MONTHS_SHORT : MONTHS
+    dateString = `${dayOfMonth} ${monthNames[monthIndex]} ${time}`
+  }
+
+  return (
+    <Wrapper>
+      <div>{market} Price Chart</div>
+      {dateString}
+    </Wrapper>
+  );
 };
 
 export type { ChartHeaderProps };

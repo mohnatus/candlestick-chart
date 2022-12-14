@@ -10,11 +10,10 @@ import { Candles } from "./components/Candles";
 import { CandleData } from "./components/CandleData";
 import { ChartHeader } from "./components/ChartHeader";
 import { ChartIntervals } from "./components/ChartIntervals";
-import { Candle, CandleVars } from './types';
+import { Candle, CandleVars } from "./types";
 import { IsMobileContext } from "./context";
 
 interface CandlestickChartProps {
-  count: number;
   market: string;
   intervals: Array<string>;
 }
@@ -28,7 +27,6 @@ function CandlesHandler(data: CandleVars[]): Candle[] {
 }
 
 const CandlestickChartContent = function ({
-  count,
   market,
   intervals,
 }: Partial<CandlestickChartProps>) {
@@ -100,7 +98,7 @@ const CandlestickChartContent = function ({
   );
 };
 
-const CandlestickChart = function () {
+const CandlestickChart = function (props: Partial<CandlestickChartProps>) {
   const [media, setMedia] = useState(false);
 
   useLayoutEffect(() => {
@@ -118,7 +116,7 @@ const CandlestickChart = function () {
 
   return (
     <IsMobileContext.Provider value={media}>
-      <CandlestickChartContent />
+      <CandlestickChartContent {...props} />
     </IsMobileContext.Provider>
   );
 };

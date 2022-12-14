@@ -1,8 +1,24 @@
+import styled from "styled-components";
+
 interface ChartIntervalsProps {
   intervals?: Array<string>;
   selected: string | null;
   onSelect: (interval: string) => void;
 }
+
+interface IntervalStyleProps {
+  active: boolean;
+}
+
+const IntervalStyle = styled.button<IntervalStyleProps>`
+  cursor: pointer;
+  ${(props) =>
+    props.active &&
+    `
+    background: teal;
+    color: white;
+  `}
+`;
 
 const ChartIntervals = function ({
   intervals,
@@ -15,9 +31,13 @@ const ChartIntervals = function ({
     <div>
       Time
       {list.map((interval) => (
-        <button type="button" key={interval} onClick={() => onSelect(interval)}>
+        <IntervalStyle
+          type="button"
+          key={interval}
+          active={selected === interval}
+          onClick={() => onSelect(interval)}>
           {interval}
-        </button>
+        </IntervalStyle>
       ))}
     </div>
   );

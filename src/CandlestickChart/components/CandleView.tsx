@@ -2,7 +2,7 @@ import { MouseEvent } from "react";
 import styled from "styled-components";
 
 import { CANDLE_COLORS } from "../constants/colors";
-import { Candle } from '../types';
+import { Candle } from "../types";
 
 interface CandleViewProps {
   candle: Candle;

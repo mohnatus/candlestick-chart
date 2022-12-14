@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 
-import { RequestParams } from '../types';
+import { RequestParams } from "../types";
 
 function getParamsString(params: RequestParams = {}) {
   return Object.entries(params)
@@ -8,7 +8,7 @@ function getParamsString(params: RequestParams = {}) {
     .join("&");
 }
 
-export function useRequest<T>(endpoint: string, handler?: (data: any) => T) {
+export function useRequest<T>(endpoint: string, handler: (data: any) => T) {
   const [pending, setPending] = useState(false);
   const [data, setData] = useState<T | null>(null);
 
@@ -23,7 +23,6 @@ export function useRequest<T>(endpoint: string, handler?: (data: any) => T) {
 
   const send = useCallback(
     async (params?: RequestParams) => {
-      console.log("send request");
       setPending(true);
 
       abort();
@@ -44,7 +43,7 @@ export function useRequest<T>(endpoint: string, handler?: (data: any) => T) {
 
       setPending(false);
     },
-    [endpoint, abort, handler]
+    [endpoint, abort, handler],
   );
 
   return { pending, data, send, abort };

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { CHART_HEIGHT } from "../constants/view";
 import { CandleView } from "./CandleView";
 import { getMaxPrice, getMinPrice } from "../utils";
-import { Candle } from '../types';
+import { Candle } from "../types";
 
 interface CandlesProps {
   candles: Candle[];
@@ -20,7 +20,6 @@ const WrapperStyle = styled.div`
 const CandleWrapperStyle = styled.div`
   margin: 0 4px;
 `;
-
 
 const Candles = function ({ candles, selectedId, onSelect }: CandlesProps) {
   const maxPrice = getMaxPrice(candles);
