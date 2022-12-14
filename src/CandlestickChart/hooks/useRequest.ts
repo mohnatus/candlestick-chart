@@ -9,9 +9,6 @@ function getParamsString(params: RequestParams = {}) {
 }
 
 export function useRequest<T>(endpoint: string) {
-  const [pending, setPending] = useState(false);
-  const [data, setData] = useState<T | null>(null);
-
   const abortController = useRef<AbortController | null>(null);
 
   const abort = useCallback(() => {
@@ -22,9 +19,7 @@ export function useRequest<T>(endpoint: string) {
   }, []);
 
   const send = useCallback(
-    async (params?: RequestParams) => {
-      setPending(true);
-
+    async (params?: RequestParams): Promise<T> => {
       abort();
 
       const controller = new AbortController();
@@ -33,14 +28,12 @@ export function useRequest<T>(endpoint: string) {
       const response = await fetch(`${endpoint}?${getParamsString(params)}`, {
         signal: controller.signal,
       });
-      const json: T = await response.json();
+      const json = await response.json();
 
-      setData(json);
-
-      setPending(false);
+      return json;
     },
     [endpoint, abort],
   );
 
-  return { pending, data, send, abort };
+  return { send, abort };
 }

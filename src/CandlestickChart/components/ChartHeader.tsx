@@ -37,12 +37,16 @@ const ChartHeader = function ({ selected }: ChartHeaderProps) {
   const isMobile = useContext(IsMobileContext);
 
   let dateString = "";
+  const monthNames = isMobile ? MONTHS_SHORT : MONTHS;
+
   if (selected) {
     const { dayOfMonth, monthIndex, time } = getDateComponents(
       selected.openTime,
     );
-    const monthNames = isMobile ? MONTHS_SHORT : MONTHS;
+
     dateString = `${dayOfMonth} ${monthNames[monthIndex]} ${time}`;
+  } else {
+    dateString = `1 ${monthNames[0]} 0:00`;
   }
 
   return (

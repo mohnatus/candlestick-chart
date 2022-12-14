@@ -1,4 +1,3 @@
-import { MouseEvent } from "react";
 import styled from "styled-components";
 
 import { CANDLE_COLORS } from "../constants/colors";
@@ -9,7 +8,7 @@ interface CandleViewProps {
   pointHeight: number;
   maxPrice: number;
   selected: boolean;
-  onClick: (e: MouseEvent<HTMLDivElement>) => void;
+  onClick: () => void;
 }
 
 interface CandleStyleProps {
@@ -27,7 +26,14 @@ interface BodyStyleProps {
 }
 
 const CandleStyle = styled.div<CandleStyleProps>`
-  width: 7px;
+  box-sizing: border-box;
+  width: 15px;
+  height: 100%;
+
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: ${(props) => props.offset}px;
+
   cursor: pointer;
 
   color: ${(props) =>
@@ -40,8 +46,6 @@ const CandleStyle = styled.div<CandleStyleProps>`
         ? CANDLE_COLORS[props.type].active
         : CANDLE_COLORS[props.type].hover};
   }
-
-  padding-top: ${(props) => props.offset}px;
 `;
 
 const ShadowStyle = styled.div<ShadowStyleProps>`
@@ -77,10 +81,9 @@ function CandleView({
       type={
         candle.isBullish ? "bullish" : candle.isBearish ? "bearish" : "default"
       }
-      onClick={onClick}
       offset={offset * pointHeight}
       active={selected}
-    >
+      onClick={onClick}>
       <ShadowStyle height={topShadowHeight * pointHeight}></ShadowStyle>
       <BodyStyle height={bodyHeight * pointHeight}></BodyStyle>
       <ShadowStyle height={bottomShadowHeight * pointHeight}></ShadowStyle>

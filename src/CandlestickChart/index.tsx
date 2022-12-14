@@ -1,4 +1,10 @@
-import { useEffect, useState, useCallback, useLayoutEffect, useContext } from 'react';
+import {
+  useEffect,
+  useState,
+  useCallback,
+  useLayoutEffect,
+  useContext,
+} from "react";
 import styled from "styled-components";
 
 import { useRequest } from "./hooks/useRequest";
@@ -11,16 +17,18 @@ import { ChartHeader } from "./components/ChartHeader";
 import { ChartIntervals } from "./components/ChartIntervals";
 import { Candle, CandleVars } from "./types";
 import { IsMobileContext } from "./context";
-import { SPACE_MD, SPACE_SM } from "./constants/view";
+import { SPACE_MD } from "./constants/view";
 import { COLORS } from "./constants/colors";
-import { CHART_INTERVALS, MARKET } from './constants/chart';
+import { CHART_INTERVALS, MARKET } from "./constants/chart";
+import { MobileContextWrapper } from "./context/index";
 
 interface WrapperStyleProps {
-  isMobile: boolean
+  isMobile: boolean;
 }
 
 const WrapperStyle = styled.div<WrapperStyleProps>`
-  width: ${ props => props.isMobile ? 345 : 510}px;
+  font-family: "Roboto", sans-serif;
+  width: ${(props) => (props.isMobile ? 345 : 510)}px;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
 
@@ -44,9 +52,10 @@ const ContentStyle = styled.div`
 `;
 
 const FooterStyle = styled.footer`
-  padding: ${SPACE_SM}px ${SPACE_MD}px;
+  height: 40px;
+  display: flex;
+  padding: 0 ${SPACE_MD}px;
   position: relative;
-
   background: #141414;
   color: white;
   border-bottom-left-radius: inherit;
@@ -62,10 +71,8 @@ const CandlestickChartContent = function () {
 
   const [interval, setInterval] = useState(CHART_INTERVALS[0]);
   const [selectedCandleId, setSelectedCandleId] = useState<string | null>(null);
-  const { pending, data, send, abort } = useRequest<CandleVars[]>(
-    CANDLESTICK_CHART_ENDPOINT,
-  );
   const [candles, setCandles] = useState<Candle[]>([]);
+  const { send, abort } = useRequest<CandleVars[]>(CANDLESTICK_CHART_ENDPOINT);
 
   const selectCandle = useCallback(
     (candle: Candle) => {
@@ -81,27 +88,27 @@ const CandlestickChartContent = function () {
     [setInterval],
   );
 
-  const selectedCandle =
-    candles.find((candle) => candle.id === selectedCandleId) ||
-    candles[candles.length - 1];
-
   useEffect(() => {
     if (interval) {
       send({
         limit: 32,
         symbol: MARKET,
         interval,
+      }).then((list) => {
+        setCandles(CandlesHandler(list));
       });
     }
 
     return () => {
       abort();
     };
-  }, [interval, send, abort]);
+  }, [interval, setCandles, send, abort]);
 
-  useEffect(() => {
-    setCandles(CandlesHandler(data || []));
-  }, [data, setCandles]);
+  const selectedCandle =
+    candles.find((candle) => candle.id === selectedCandleId) ||
+    candles[candles.length - 1];
+
+  console.log({ isMobile });
 
   return (
     <WrapperStyle isMobile={isMobile}>
@@ -112,7 +119,7 @@ const CandlestickChartContent = function () {
           selectedId={selectedCandleId}
           onSelect={selectCandle}
         />
-        {selectedCandle && <CandleData candle={selectedCandle} />}
+        <CandleData candle={selectedCandle} />
       </ContentStyle>
       <FooterStyle>
         <ChartIntervals
@@ -121,31 +128,15 @@ const CandlestickChartContent = function () {
           onSelect={selectInterval}
         />
       </FooterStyle>
-      {pending && <div>Pending...</div>}
     </WrapperStyle>
   );
 };
 
 const CandlestickChart = function () {
-  const [media, setMedia] = useState(false);
-
-  useLayoutEffect(() => {
-    const mq = "screen and (min-width: 526px)";
-    const mql = window.matchMedia(mq);
-
-    const cb = (mql: { matches: boolean }) => {
-      setMedia(!mql.matches);
-    };
-
-    mql.addEventListener("change", cb);
-
-    cb(mql);
-  }, []);
-
   return (
-    <IsMobileContext.Provider value={media}>
+    <MobileContextWrapper>
       <CandlestickChartContent />
-    </IsMobileContext.Provider>
+    </MobileContextWrapper>
   );
 };
 

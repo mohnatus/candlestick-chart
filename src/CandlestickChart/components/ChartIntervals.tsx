@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { COLORS } from "../constants/colors";
-import { SPACE_MD, SPACE_SM } from "../constants/view";
+import { SPACE_MD, SPACE_SM, SPACE_XS } from "../constants/view";
 
 interface ChartIntervalsProps {
   intervals?: Array<string>;
@@ -12,13 +12,27 @@ interface IntervalStyleProps {
   active: boolean;
 }
 
+const WrapperStyle = styled.div`
+  height: 40px;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+`;
+
+const TitleStyle = styled.div`
+  margin-right: ${SPACE_XS}px;
+`;
+
 const IntervalStyle = styled.button<IntervalStyleProps>`
+  height: 100%;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   background: transparent;
   padding: 0;
   border: none;
   outline: none;
-  margin-left: ${SPACE_SM}px;
+  padding: 0 ${SPACE_XS}px;
   color: ${(props) => (props.active ? COLORS.text : COLORS.secondary)};
 
   &:hover {
@@ -34,8 +48,8 @@ const ChartIntervals = function ({
   const list = [...new Set(intervals).values()];
 
   return (
-    <div>
-      Time
+    <WrapperStyle>
+      <TitleStyle>Time</TitleStyle>
       {list.map((interval) => (
         <IntervalStyle
           type="button"
@@ -45,7 +59,7 @@ const ChartIntervals = function ({
           {interval}
         </IntervalStyle>
       ))}
-    </div>
+    </WrapperStyle>
   );
 };
 
