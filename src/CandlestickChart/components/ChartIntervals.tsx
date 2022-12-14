@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { COLORS } from "../constants/colors";
-import { SPACE_MD, SPACE_SM, SPACE_XS } from "../constants/view";
+import { SPACE_XS } from "../constants/view";
 
 interface ChartIntervalsProps {
   intervals?: Array<string>;
@@ -16,6 +16,7 @@ const WrapperStyle = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
+
   line-height: 1;
 `;
 
@@ -27,13 +28,15 @@ const IntervalStyle = styled.button<IntervalStyleProps>`
   height: 100%;
   display: flex;
   align-items: center;
-  cursor: pointer;
-  background: transparent;
-  padding: 0;
+  padding: 0 ${SPACE_XS}px;
+
   border: none;
   outline: none;
-  padding: 0 ${SPACE_XS}px;
+
+  background: transparent;
   color: ${(props) => (props.active ? COLORS.text : COLORS.secondary)};
+
+  cursor: pointer;
 
   &:hover {
     color: ${(props) => (props.active ? COLORS.text : COLORS.textHover)};

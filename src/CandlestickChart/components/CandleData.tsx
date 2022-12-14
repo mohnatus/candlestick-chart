@@ -17,10 +17,11 @@ interface WrapperStyleProps {
 
 const WrapperStyle = styled.div<WrapperStyleProps>`
   display: flex;
+  
+  font-size: ${(props) => (props.isMobile ? 24 : 30)}px;
   font-weight: 300;
   line-height: 1;
-  font-size: ${(props) => (props.isMobile ? 24 : 30)}px;
-
+  
   section:not(:last-child) {
     margin-right: ${(props) => (props.isMobile ? SPACE_SM : SPACE_LG)}px;
   }
@@ -30,10 +31,12 @@ const WrapperStyle = styled.div<WrapperStyleProps>`
   }
 
   h2 {
-    font-size: ${(props) => (props.isMobile ? 15 : 18)}px;
     margin: 0;
-    color: ${COLORS.secondary};
+
+    font-size: ${(props) => (props.isMobile ? 15 : 18)}px;
     font-weight: 300;
+    
+    color: ${COLORS.secondary};
   }
 `;
 

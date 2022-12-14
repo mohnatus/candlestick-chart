@@ -20,15 +20,18 @@ const WrapperStyle = styled.header<WrapperStyleProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: ${SPACE_SM}px;
+
   font-size: ${(props) => (props.isMobile ? 17 : 19)}px;
   font-weight: 400;
-  margin-bottom: ${SPACE_SM}px;
 `;
 
 const TitleStyle = styled.h1`
-  color: ${COLORS.accent};
   margin: 0;
+
   font: inherit;
+
+  color: ${COLORS.accent};
 `;
 
 const DateStyle = styled.div``;

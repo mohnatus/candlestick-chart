@@ -1,10 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useCallback,
-  useLayoutEffect,
-  useContext,
-} from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import styled from "styled-components";
 
 import { useRequest } from "./hooks/useRequest";
@@ -27,8 +21,10 @@ interface WrapperStyleProps {
 }
 
 const WrapperStyle = styled.div<WrapperStyleProps>`
-  font-family: "Roboto", sans-serif;
   width: ${(props) => (props.isMobile ? 345 : 510)}px;
+
+  font-family: "Roboto", sans-serif;
+
   background: rgba(0, 0, 0, 0.7);
   border-radius: 10px;
 
@@ -41,6 +37,7 @@ const WrapperStyle = styled.div<WrapperStyleProps>`
     left: 0;
     right: 0;
     bottom: 0;
+
     border-radius: inherit;
     filter: blur(10px);
   }
@@ -56,6 +53,7 @@ const FooterStyle = styled.footer`
   display: flex;
   padding: 0 ${SPACE_MD}px;
   position: relative;
+
   background: #141414;
   color: white;
   border-bottom-left-radius: inherit;
@@ -107,8 +105,6 @@ const CandlestickChartContent = function () {
   const selectedCandle =
     candles.find((candle) => candle.id === selectedCandleId) ||
     candles[candles.length - 1];
-
-  console.log({ isMobile });
 
   return (
     <WrapperStyle isMobile={isMobile}>

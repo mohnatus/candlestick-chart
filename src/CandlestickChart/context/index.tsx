@@ -1,12 +1,12 @@
-import { createContext, ReactNode, useState, useLayoutEffect, ReactElement } from "react";
+import { createContext, ReactNode, useState, useLayoutEffect } from "react";
 
 export const IsMobileContext = createContext(false);
 
-
-
 export const MobileContextWrapper = function ({
   children,
-}: { children: ReactNode }) {
+}: {
+  children: ReactNode;
+}) {
   const [media, setMedia] = useState(false);
 
   useLayoutEffect(() => {
@@ -15,7 +15,6 @@ export const MobileContextWrapper = function ({
 
     const cb = (mql: { matches: boolean }) => {
       setMedia(!mql.matches);
-      console.log({ mql })
     };
 
     mql.addEventListener("change", cb);

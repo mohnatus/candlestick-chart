@@ -29,17 +29,17 @@ const CandleStyle = styled.div<CandleStyleProps>`
   box-sizing: border-box;
   width: 15px;
   height: 100%;
-
   padding-left: 4px;
   padding-right: 4px;
   padding-top: ${(props) => props.offset}px;
-
-  cursor: pointer;
 
   color: ${(props) =>
     props.active
       ? CANDLE_COLORS[props.type].active
       : CANDLE_COLORS[props.type].color};
+
+  cursor: pointer;
+
   &:hover {
     color: ${(props) =>
       props.active
@@ -49,14 +49,16 @@ const CandleStyle = styled.div<CandleStyleProps>`
 `;
 
 const ShadowStyle = styled.div<ShadowStyleProps>`
-  height: ${(props) => Math.floor(props.height * 10) / 10}px;
-  background-color: currentColor;
   width: 1px;
+  height: ${(props) => Math.floor(props.height * 10) / 10}px;
   margin: 0 auto;
+
+  background-color: currentColor;
 `;
 
 const BodyStyle = styled.div<BodyStyleProps>`
   height: ${(props) => Math.floor(props.height * 10) / 10}px;
+
   background-color: currentColor;
 `;
 
