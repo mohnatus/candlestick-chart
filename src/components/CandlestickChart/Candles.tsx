@@ -23,7 +23,7 @@ const WrapperStyle = styled.div`
 const CandleWrapperStyle = styled.div<CandleWrapperStyleProps>`
   margin: 0 2px;
   flex-grow: 1;
-  padding-top: ${(props) => props.offset}px;
+  padding-top: ${(props) => Math.floor(props.offset * 10) / 10}px;
 `;
 
 const Candles = function ({ candles, selectedId, onSelect }: CandlesProps) {

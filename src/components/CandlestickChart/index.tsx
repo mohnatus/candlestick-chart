@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
+
 import { useRequest } from "../../hooks/useRequest";
 import { CANDLESTICK_CHART_ENDPOINT } from "../../constants/api";
-import { CandleModel } from "../../entity/Candle";
-import { Candles } from "./Candles";
 import { DEFAULT_CHART_CONFIG } from "../../constants/chart";
-import { formatDateMoment } from "./utils";
+import { CandleModel } from "../../entity/Candle";
+
+import { Candles } from "./Candles";
 import { CandleData } from "./CandleData";
+import {  ChartHeader } from "./ChartHeader";
+import { ChartIntervals } from "./ChartIntervals";
 
 interface CandlestickChartProps {
   count: number;
@@ -13,26 +16,9 @@ interface CandlestickChartProps {
   intervals: Array<string>;
 }
 
-interface CandlestickChartHeaderProps {
-  market: string;
-  selected: Candle | null;
-}
-
 function CandlesHandler(data: CandleVars[]): Candle[] {
   return data.map((candleData) => CandleModel(candleData));
 }
-
-const CandlestickChartHeader = function ({
-  market,
-  selected,
-}: CandlestickChartHeaderProps) {
-  return (
-    <div>
-      <div>{market} Price Chart</div>
-      {selected && <div>{formatDateMoment(selected.openTime)}</div>}
-    </div>
-  );
-};
 
 const CandlestickChart = function ({
   count,
@@ -56,6 +42,13 @@ const CandlestickChart = function ({
       setSelectedCandleId(candle.id);
     },
     [setSelectedCandleId]
+  );
+
+  const selectInterval = useCallback(
+    (interval: string) => {
+      setInterval(interval);
+    },
+    [setInterval]
   );
 
   let selectedCandle = null;
@@ -85,13 +78,18 @@ const CandlestickChart = function ({
 
   return (
     <div>
-      <CandlestickChartHeader market={marketName} selected={selectedCandle} />
+      <ChartHeader market={marketName} selected={selectedCandle} />
       <Candles
         candles={data || []}
         selectedId={selectedCandleId}
         onSelect={selectCandle}
       />
       {selectedCandle && <CandleData candle={selectedCandle} />}
+      <ChartIntervals
+        intervals={chartIntervals}
+        selected={interval}
+        onSelect={selectInterval}
+      />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { MouseEvent } from "react";
 import styled from "styled-components";
+
 import { CANDLE_COLORS } from "../../constants/colors";
 interface CandleViewProps {
   candle: Candle;
@@ -27,14 +28,14 @@ const CandleStyle = styled.div<CandleStyleProps>`
 `;
 
 const ShadowStyle = styled.div<ShadowStyleProps>`
-  height: ${(props) => props.height}px;
+  height: ${(props) => Math.floor(props.height * 10) / 10}px;
   background-color: currentColor;
   width: 2px;
   margin: 0 auto;
 `;
 
 const BodyStyle = styled.div<BodyStyleProps>`
-  height: ${(props) => props.height}px;
+  height: ${(props) => Math.floor(props.height * 10) / 10}px;
   background-color: currentColor;
 `;
 
