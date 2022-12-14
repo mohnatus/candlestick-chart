@@ -36,3 +36,13 @@ export function formatDateMoment(moment: Moment): string {
     MONTHS[date.getMonth()]
   } ${date.getHours()}:${minutes.padStart(2, "0")}`;
 }
+
+export function getCandleChange(candle: Candle): number {
+  const result = (candle.closePrice / candle.openPrice) * 100 - 100;
+  return Math.round(result * 100) / 100;
+}
+
+export function getCandleAmplitude(candle: Candle): number {
+  const result = (candle.highestPrice / candle.lowestPrice) * 100 - 100;
+  return Math.round(result * 100) / 100;
+}

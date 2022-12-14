@@ -4,7 +4,8 @@ import { CANDLESTICK_CHART_ENDPOINT } from "../../constants/api";
 import { CandleModel } from "../../entity/Candle";
 import { Candles } from "./Candles";
 import { DEFAULT_CHART_CONFIG } from "../../constants/chart";
-import { formatDateMoment } from './utils';
+import { formatDateMoment } from "./utils";
+import { CandleData } from "./CandleData";
 
 interface CandlestickChartProps {
   count: number;
@@ -28,8 +29,7 @@ const CandlestickChartHeader = function ({
   return (
     <div>
       <div>{market} Price Chart</div>
-      { selected && <div>{formatDateMoment(selected.openTime)}</div>}
-      
+      {selected && <div>{formatDateMoment(selected.openTime)}</div>}
     </div>
   );
 };
@@ -91,6 +91,7 @@ const CandlestickChart = function ({
         selectedId={selectedCandleId}
         onSelect={selectCandle}
       />
+      {selectedCandle && <CandleData candle={selectedCandle} />}
     </div>
   );
 };
