@@ -16,3 +16,9 @@ export const CANDLE_COLORS = {
     active: "black",
   },
 };
+
+export const COLORS = {
+  text: "white",
+  secondary: "#8D8D8D",
+  accent: "#72ED93",
+};

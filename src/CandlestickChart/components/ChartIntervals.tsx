@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { COLORS } from "../constants/colors";
+import { SPACE_MD, SPACE_SM } from "../constants/view";
 
 interface ChartIntervalsProps {
   intervals?: Array<string>;
@@ -12,12 +14,12 @@ interface IntervalStyleProps {
 
 const IntervalStyle = styled.button<IntervalStyleProps>`
   cursor: pointer;
-  ${(props) =>
-    props.active &&
-    `
-    background: teal;
-    color: white;
-  `}
+  background: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  margin-left: ${SPACE_SM}px;
+  color: ${(props) => (props.active ? COLORS.text : COLORS.secondary)};
 `;
 
 const ChartIntervals = function ({

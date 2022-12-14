@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { CHART_HEIGHT } from "../constants/view";
+import { CHART_HEIGHT, SPACE_MD } from "../constants/view";
 import { CandleView } from "./CandleView";
 import { getMaxPrice, getMinPrice } from "../utils";
 import { Candle } from "../types";
@@ -15,6 +15,7 @@ const WrapperStyle = styled.div`
   align-items: flex-start;
   width: 100%;
   overflow: hidden;
+  margin-bottom: ${SPACE_MD}px;
 `;
 
 const CandleWrapperStyle = styled.div`

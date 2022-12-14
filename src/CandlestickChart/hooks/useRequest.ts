@@ -8,7 +8,7 @@ function getParamsString(params: RequestParams = {}) {
     .join("&");
 }
 
-export function useRequest<T>(endpoint: string, handler: (data: any) => T) {
+export function useRequest<T>(endpoint: string) {
   const [pending, setPending] = useState(false);
   const [data, setData] = useState<T | null>(null);
 
@@ -33,17 +33,13 @@ export function useRequest<T>(endpoint: string, handler: (data: any) => T) {
       const response = await fetch(`${endpoint}?${getParamsString(params)}`, {
         signal: controller.signal,
       });
-      const json = await response.json();
+      const json: T = await response.json();
 
-      if (typeof handler === "function") {
-        setData(handler(json));
-      } else {
-        setData(json);
-      }
+      setData(json);
 
       setPending(false);
     },
-    [endpoint, abort, handler],
+    [endpoint, abort],
   );
 
   return { pending, data, send, abort };

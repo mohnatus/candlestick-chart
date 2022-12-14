@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import { useRequest } from "./hooks/useRequest";
 import { CANDLESTICK_CHART_ENDPOINT } from "./constants/api";
-import { DEFAULT_CHART_CONFIG } from "./constants/chart";
 import { CandleModel } from "./entity/Candle";
 
 import { Candles } from "./components/Candles";
@@ -12,61 +11,81 @@ import { ChartHeader } from "./components/ChartHeader";
 import { ChartIntervals } from "./components/ChartIntervals";
 import { Candle, CandleVars } from "./types";
 import { IsMobileContext } from "./context";
+import { SPACE_MD, SPACE_SM } from "./constants/view";
+import { COLORS } from "./constants/colors";
+import { CHART_INTERVALS, MARKET } from './constants/chart';
 
-interface CandlestickChartProps {
-  market: string;
-  intervals: Array<string>;
-}
 
-const Wrapper = styled.div`
+
+const WrapperStyle = styled.div`
   width: 510px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+
+  color: ${COLORS.text};
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    filter: blur(10px);
+  }
+`;
+
+const ContentStyle = styled.div`
+  padding: ${SPACE_MD}px;
+  position: relative;
+`;
+
+const FooterStyle = styled.footer`
+  padding: ${SPACE_SM}px ${SPACE_MD}px;
+  position: relative;
+
+  background: #141414;
+  color: white;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
 `;
 
 function CandlesHandler(data: CandleVars[]): Candle[] {
   return data.map((candleData) => CandleModel(candleData));
 }
 
-const CandlestickChartContent = function ({
-  market,
-  intervals,
-}: Partial<CandlestickChartProps>) {
-  const [marketName] = useState(market || DEFAULT_CHART_CONFIG.market);
-  const [chartIntervals] = useState(
-    intervals?.length ? intervals : DEFAULT_CHART_CONFIG.intervals
-  );
-  const [interval, setInterval] = useState(chartIntervals[0]);
+const CandlestickChartContent = function () {
+  const [interval, setInterval] = useState(CHART_INTERVALS[0]);
   const [selectedCandleId, setSelectedCandleId] = useState<string | null>(null);
-  const { pending, data, send, abort } = useRequest<Candle[]>(
+  const { pending, data, send, abort } = useRequest<CandleVars[]>(
     CANDLESTICK_CHART_ENDPOINT,
-    CandlesHandler
   );
+  const [candles, setCandles] = useState<Candle[]>([]);
 
   const selectCandle = useCallback(
     (candle: Candle) => {
       setSelectedCandleId(candle.id);
     },
-    [setSelectedCandleId]
+    [setSelectedCandleId],
   );
 
   const selectInterval = useCallback(
     (interval: string) => {
       setInterval(interval);
     },
-    [setInterval]
+    [setInterval],
   );
 
-  let selectedCandle = null;
-  if (data) {
-    selectedCandle =
-      data.find((candle) => candle.id === selectedCandleId) ||
-      data[data.length - 1];
-  }
+  const selectedCandle =
+    candles.find((candle) => candle.id === selectedCandleId) ||
+    candles[candles.length - 1];
 
   useEffect(() => {
     if (interval) {
       send({
         limit: 32,
-        symbol: marketName,
+        symbol: MARKET,
         interval,
       });
     }
@@ -74,31 +93,36 @@ const CandlestickChartContent = function ({
     return () => {
       abort();
     };
-  }, [marketName, interval, send, abort]);
+  }, [interval, send, abort]);
 
-  if (!chartIntervals.length) {
-    <div>Не указаны интервалы</div>;
-  }
+  useEffect(() => {
+    setCandles(CandlesHandler(data || []));
+  }, [data, setCandles]);
 
   return (
-    <Wrapper>
-      <ChartHeader market={marketName} selected={selectedCandle} />
-      <Candles
-        candles={data || []}
-        selectedId={selectedCandleId}
-        onSelect={selectCandle}
-      />
-      {selectedCandle && <CandleData candle={selectedCandle} />}
-      <ChartIntervals
-        intervals={chartIntervals}
-        selected={interval}
-        onSelect={selectInterval}
-      />
-    </Wrapper>
+    <WrapperStyle>
+      <ContentStyle>
+        <ChartHeader selected={selectedCandle} />
+        <Candles
+          candles={candles}
+          selectedId={selectedCandleId}
+          onSelect={selectCandle}
+        />
+        {selectedCandle && <CandleData candle={selectedCandle} />}
+      </ContentStyle>
+      <FooterStyle>
+        <ChartIntervals
+          intervals={CHART_INTERVALS}
+          selected={interval}
+          onSelect={selectInterval}
+        />
+      </FooterStyle>
+      {pending && <div>Pending...</div>}
+    </WrapperStyle>
   );
 };
 
-const CandlestickChart = function (props: Partial<CandlestickChartProps>) {
+const CandlestickChart = function () {
   const [media, setMedia] = useState(false);
 
   useLayoutEffect(() => {
@@ -116,10 +140,9 @@ const CandlestickChart = function (props: Partial<CandlestickChartProps>) {
 
   return (
     <IsMobileContext.Provider value={media}>
-      <CandlestickChartContent {...props} />
+      <CandlestickChartContent />
     </IsMobileContext.Provider>
   );
 };
 
-export type { CandlestickChartProps };
 export { CandlestickChart };
