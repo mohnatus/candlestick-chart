@@ -9,6 +9,8 @@ export function CandleModel(data: CandleVars): Candle {
 
   return {
     id: `${unique++}`,
+    openTime: data[0],
+    closeTime: data[6],
     openPrice,
     closePrice,
     highestPrice: parseFloat(data[2]),

@@ -1,19 +1,21 @@
 /// <reference types="react-scripts" />
 
+type Moment = number;
+
 type RequestParams = {
   [key: string]: string | number;
 };
 
 type CandleVars = [
-  number, // open time
-  string, // open price
-  string, // high price
-  string, // low price
-  string, // close price
-  string, // volume
-  number, // close time
-  string, // quote asset volume
-  number, // number of trades
+  openTime: number, // open time
+  openPrice: string, // open price
+  highPrice: string, // high price
+  lowPrice: string, // low price
+  closePrice: string, // close price
+  volume: string, // volume
+  closeTime: number, // close time
+  quoteAssetVolume: string, // quote asset volume
+  tradesNumber: number, // number of trades
   string, // taker buy base asset volume
   string, // taker buy quote asset volume
   string // unused
@@ -22,6 +24,8 @@ type CandleVars = [
 
 type Candle = {
   id: string;
+  openTime: Moment;
+  closeTime: Moment;
   highestPrice: number;
   lowestPrice: number;
   openPrice: number;
@@ -29,3 +33,5 @@ type Candle = {
   isBullish: boolean;
   isBearish: boolean;
 };
+
+

@@ -5,7 +5,7 @@ import { getMaxPrice, getMinPrice, getCandleOffset } from './utils';
 
 interface CandlesProps {
   candles: Candle[];
-  selected?: string;
+  selectedId: string | null;
   onSelect: (candle: Candle) => void;
 }
 
@@ -26,7 +26,7 @@ const CandleWrapperStyle = styled.div<CandleWrapperStyleProps>`
   padding-top: ${(props) => props.offset}px;
 `;
 
-const Candles = function ({ candles, selected, onSelect }: CandlesProps) {
+const Candles = function ({ candles, selectedId, onSelect }: CandlesProps) {
   const maxPrice = getMaxPrice(candles);
   const minPrice = getMinPrice(candles);
 
@@ -41,7 +41,7 @@ const Candles = function ({ candles, selected, onSelect }: CandlesProps) {
             key={candle.id}
             offset={getCandleOffset(candle, maxPrice) * pointHeight}
           >
-            <CandleView candle={candle} pointHeight={pointHeight}></CandleView>
+            <CandleView candle={candle} pointHeight={pointHeight} onClick={() => onSelect(candle)}></CandleView>
           </CandleWrapperStyle>
         ))}
       </WrapperStyle>

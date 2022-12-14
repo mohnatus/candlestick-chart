@@ -1,8 +1,10 @@
+import { MouseEvent } from "react";
 import styled from "styled-components";
 import { CANDLE_COLORS } from "../../constants/colors";
 interface CandleViewProps {
   candle: Candle;
   pointHeight: number;
+  onClick: (e: MouseEvent<HTMLDivElement>) => void;
 }
 
 interface CandleStyleProps {
@@ -36,7 +38,7 @@ const BodyStyle = styled.div<BodyStyleProps>`
   background-color: currentColor;
 `;
 
-function CandleView({ candle, pointHeight }: CandleViewProps) {
+function CandleView({ candle, pointHeight, onClick }: CandleViewProps) {
   const top = candle.isBullish ? candle.closePrice : candle.openPrice;
   const bottom = candle.isBullish ? candle.openPrice : candle.closePrice;
 
@@ -45,7 +47,11 @@ function CandleView({ candle, pointHeight }: CandleViewProps) {
   const bodyHeight = top - bottom;
 
   return (
-    <CandleStyle isBullish={candle.isBullish} isBearish={candle.isBearish}>
+    <CandleStyle
+      isBullish={candle.isBullish}
+      isBearish={candle.isBearish}
+      onClick={onClick}
+    >
       <ShadowStyle height={topShadowHeight * pointHeight}></ShadowStyle>
       <BodyStyle height={bodyHeight * pointHeight}></BodyStyle>
       <ShadowStyle height={bottomShadowHeight * pointHeight}></ShadowStyle>

@@ -9,5 +9,30 @@ export function getMinPrice(candles: Candle[]): number {
 }
 
 export function getCandleOffset(candle: Candle, maxPrice: number): number {
-    return maxPrice - candle.highestPrice;
+  return maxPrice - candle.highestPrice;
+}
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export function formatDateMoment(moment: Moment): string {
+  const date = new Date(moment);
+
+  const minutes = `${date.getMinutes()}`;
+
+  return `${date.getDate()} ${
+    MONTHS[date.getMonth()]
+  } ${date.getHours()}:${minutes.padStart(2, "0")}`;
 }
