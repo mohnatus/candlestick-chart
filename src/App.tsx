@@ -40,7 +40,7 @@ function App() {
 
       <CandlestickChart />
 
-      <CopyrightStyle>
+      <CopyrightStyle href="https://casetech.ru" target="_blank">
         Задизайнено в КейсТехе &gt;
       </CopyrightStyle>
     </div>
