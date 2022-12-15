@@ -40,6 +40,11 @@ const WrapperStyle = styled.div<WrapperStyleProps>`
   }
 `;
 
+const DigitsStyle = styled.div`
+  display: inline-block;
+  text-align: right;
+`
+
 const CandleData = function ({ candle }: CandleDataProps) {
   const isMobile = useContext(IsMobileContext);
 
@@ -63,18 +68,24 @@ const CandleData = function ({ candle }: CandleDataProps) {
     <WrapperStyle isMobile={isMobile}>
       <section>
         <h2>Open/Close</h2>
-        <div>{openPrice}</div>
-        <div>{closePrice}</div>
+        <DigitsStyle>
+          <div>{openPrice}</div>
+          <div>{closePrice}</div>
+        </DigitsStyle>
       </section>
       <section>
         <h2>High/Low</h2>
-        <div>{highestPrice}</div>
-        <div>{lowestPrice}</div>
+        <DigitsStyle>
+          <div>{highestPrice}</div>
+          <div>{lowestPrice}</div>
+        </DigitsStyle>
       </section>
       <section>
         <h2>{isMobile ? "Change/Ampl" : "Change/Amplitude"}</h2>
-        <div>{change}%</div>
-        <div>{amplitude}%</div>
+        <DigitsStyle>
+          <div>{change}%</div>
+          <div>{amplitude}%</div>
+        </DigitsStyle>
       </section>
     </WrapperStyle>
   );
