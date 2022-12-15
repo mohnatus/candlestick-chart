@@ -38,8 +38,10 @@ const IntervalStyle = styled.button<IntervalStyleProps>`
 
   cursor: pointer;
 
-  &:hover {
+  &:hover, &:focus {
     color: ${(props) => (props.active ? COLORS.text : COLORS.textHover)};
+    outline: none;
+    border: none;
   }
 `;
 

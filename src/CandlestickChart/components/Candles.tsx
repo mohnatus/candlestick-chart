@@ -29,7 +29,7 @@ const Candles = function ({ candles, selectedId, onSelect }: CandlesProps) {
   const minPrice = getMinPrice(candlesList);
 
   const diff = maxPrice - minPrice;
-  const pointHeight = CHART_HEIGHT / diff;
+  const pointHeight = Math.floor(CHART_HEIGHT / diff * 10000) / 10000;
 
   return (
     <div>

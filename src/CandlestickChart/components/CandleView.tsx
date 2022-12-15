@@ -12,7 +12,7 @@ interface CandleViewProps {
 }
 
 interface CandleStyleProps {
-  type: "bullish" | "bearish" | "default";
+  candleType: "bullish" | "bearish" | "default";
   offset: number;
   active: boolean;
 }
@@ -25,7 +25,7 @@ interface BodyStyleProps {
   height: number;
 }
 
-const CandleStyle = styled.div<CandleStyleProps>`
+const CandleStyle = styled.button<CandleStyleProps>`
   box-sizing: border-box;
   width: 15px;
   height: 100%;
@@ -35,16 +35,22 @@ const CandleStyle = styled.div<CandleStyleProps>`
 
   color: ${(props) =>
     props.active
-      ? CANDLE_COLORS[props.type].active
-      : CANDLE_COLORS[props.type].color};
+      ? CANDLE_COLORS[props.candleType].active
+      : CANDLE_COLORS[props.candleType].color};
+  background: transparent;
+  border: none;
+  outilen: none;
 
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: ${(props) =>
       props.active
-        ? CANDLE_COLORS[props.type].active
-        : CANDLE_COLORS[props.type].hover};
+        ? CANDLE_COLORS[props.candleType].active
+        : CANDLE_COLORS[props.candleType].hover};
+    outline: none;
+    border: none;
   }
 `;
 
@@ -80,7 +86,8 @@ function CandleView({
 
   return (
     <CandleStyle
-      type={
+      type="button"
+      candleType={
         candle.isBullish ? "bullish" : candle.isBearish ? "bearish" : "default"
       }
       offset={offset * pointHeight}

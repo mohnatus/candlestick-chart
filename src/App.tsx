@@ -1,8 +1,8 @@
 import { CandlestickChart } from "./CandlestickChart";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
-import bg from './img/bg.jpg';
-import bgLg from './img/bg-lg.jpg';
+import bg from "./img/bg.jpg";
+import bgLg from "./img/bg-lg.jpg";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -24,12 +24,25 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const CopyrightStyle = styled.a`
+  position: fixed;
+  font-size: 19px;
+  font-weight: 600;
+  right: 20px;
+  bottom: 15px;
+  color: white;
+`;
+
 function App() {
   return (
     <div>
       <GlobalStyle />
 
       <CandlestickChart />
+
+      <CopyrightStyle>
+        Задизайнено в КейсТехе &gt;
+      </CopyrightStyle>
     </div>
   );
 }
