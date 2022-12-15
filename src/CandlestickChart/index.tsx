@@ -22,6 +22,7 @@ interface WrapperStyleProps {
 
 const WrapperStyle = styled.div<WrapperStyleProps>`
   width: ${(props) => (props.isMobile ? 345 : 510)}px;
+  position: relative;
 
   font-family: "Roboto", sans-serif;
 
@@ -39,7 +40,7 @@ const WrapperStyle = styled.div<WrapperStyleProps>`
     bottom: 0;
 
     border-radius: inherit;
-    filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 `;
 
